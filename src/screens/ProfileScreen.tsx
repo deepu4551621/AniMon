@@ -1,11 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import AppText from '../components/AppText';
 
 export default function ProfileScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Profile</Text>
-      <Text>User profile and settings.</Text>
+      <AppText weight="semibold" size={20} style={styles.title}>
+        Profile
+      </AppText>
+      <AppText>User profile and settings.</AppText>
     </View>
   );
 }

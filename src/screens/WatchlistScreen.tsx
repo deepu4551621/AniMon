@@ -1,11 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import AppText from '../components/AppText';
 
 export default function WatchlistScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Watchlist</Text>
-      <Text>Your saved shows and movies will appear here.</Text>
+      <AppText weight="semibold" size={20} style={styles.title}>
+        Watchlist
+      </AppText>
+      <AppText>Your saved shows and movies will appear here.</AppText>
     </View>
   );
 }

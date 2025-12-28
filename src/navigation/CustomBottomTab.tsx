@@ -48,6 +48,8 @@ export default function CustomBottomTab({ state, descriptors, navigation }: Bott
           const translateY = current.value === i ? withTiming(-6) : withTiming(0);
           return {
             transform: [{ translateY }, { scale }],
+            backgroundColor: '#000',
+            padding: 8, borderRadius: 24,
           };
         });
 
@@ -86,9 +88,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     backgroundColor: '#000',
-    margin: 16,
-    borderRadius: 28,
-    paddingTop: 8,
     alignItems: 'center',
     justifyContent: 'space-between',
     shadowColor: '#000',
@@ -100,8 +99,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 6,
-    // backgroundColor:'green'
+  
   },
   label: {
     fontSize: 11,

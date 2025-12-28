@@ -1,11 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import AppText from '../components/AppText';
 
 export default function DiscoverScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Discover</Text>
-      <Text>Explore trending content here.</Text>
+      <AppText weight="semibold" size={20} style={styles.title}>
+        Discover
+      </AppText>
+      <AppText>Explore trending content here.</AppText>
     </View>
   );
 }

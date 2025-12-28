@@ -5,7 +5,11 @@ import HomeScreen from '../screens/HomeScreen';
 import DiscoverScreen from '../screens/DiscoverScreen';
 import WatchlistScreen from '../screens/WatchlistScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import HomeDetails from '../screens/Home/HomeDetails';
 import CustomBottomTab from './CustomBottomTab';
+import PopularScreen from '../screens/Home/PopularScreen';
+import UpcomingScreen from '../screens/Home/UpcomingScreen';
+import AiringScreen from '../screens/Home/AiringScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -25,6 +29,10 @@ export default function AppNavigation() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Main" component={MainTabs} />
+      <Stack.Screen name="Popular" component={PopularScreen} />
+      <Stack.Screen name="Upcoming" component={UpcomingScreen} />
+      <Stack.Screen name="Airing" component={AiringScreen} />
+      <Stack.Screen name="HomeDetails" component={HomeDetails} />
     </Stack.Navigator>
   );
 }

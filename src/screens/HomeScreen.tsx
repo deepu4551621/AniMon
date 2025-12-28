@@ -1,38 +1,71 @@
-import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import React, { useEffect, useCallback } from 'react';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+} from 'react-native';
+import SafeAreaWrapper from '../components/SafeAreaWrapper';
+import AppText from '../components/AppText';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
-import { increment, decrement } from '../store/slices/counterSlice';
-import Svg, { Circle } from 'react-native-svg';
+import {
+  getPopularAnime,
+  getUpcomingAnime,
+  getAiringAnime,
+  getTopAnime,
+} from '../store/slices/animeSlice';
+import { Section, HomeCarousel } from './Home';
+
 
 export default function HomeScreen({ navigation }: any) {
-  const count = useSelector((s: RootState) => s.counter.value);
   const dispatch = useDispatch();
+  const { popularAnime, upcomingAnime, airingAnime, loading } = useSelector(
+    (s: RootState) => s.anime
+  );
+
+  const { topAnime } = useSelector((s: RootState) => s.anime);
+
+  useEffect(() => {
+    dispatch(getTopAnime({ page: 1 }) as any);
+    dispatch(getPopularAnime({ page: 1 }) as any);
+    dispatch(getUpcomingAnime({ page: 1 }) as any);
+    dispatch(getAiringAnime({ page: 1 }) as any);
+  }, [dispatch]);
+
+  const onPressItem = (item: any) => {
+    // navigate to details screen; HomeDetails will fetch details
+    if (item?.mal_id) navigation.navigate('HomeDetails', { id: item.mal_id });
+  };
+
+  const onViewAll = (screenName: string) => () => navigation.navigate(screenName);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Home</Text>
-      <Text style={styles.counter}>Counter: {count}</Text>
-      <View style={styles.row}>
-        <Button title="+" onPress={() => dispatch(increment())} />
-        <View style={{ width: 8 }} />
-        <Button title="-" onPress={() => dispatch(decrement())} />
-      </View>
-      <View style={{ height: 8 }} />
-      <Button title="Go to Discover" onPress={() => navigation.navigate('Discover')} />
-      <View style={styles.svgWrap}>
-        <Svg width={100} height={100} viewBox="0 0 120 120">
-          <Circle cx={60} cy={60} r={50} fill="#0ea5e9" />
-        </Svg>
-      </View>
+    <View style={styles.container} >
+      <ScrollView contentContainerStyle={{  }}>
+        <HomeCarousel data={topAnime} onPressItem={onPressItem} />
+        <Section title="Popular" data={popularAnime} loading={loading} onPressItem={onPressItem} onViewAll={onViewAll('Popular')} />
+        <Section title="Upcoming" data={upcomingAnime} loading={loading} onPressItem={onPressItem} onViewAll={onViewAll('Upcoming')} />
+        <Section title="Airing" data={airingAnime} loading={loading} onPressItem={onPressItem} onViewAll={onViewAll('Airing')} />
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 16 },
-  title: { fontSize: 20, marginBottom: 8 },
-  counter: { fontSize: 18, marginBottom: 8 },
-  row: { flexDirection: 'row', alignItems: 'center' },
-  svgWrap: { marginTop: 16 },
+  container: { flex: 1,backgroundColor: '#000' },
+  title: { fontSize: 20, marginBottom: 8, color: '#fff', paddingHorizontal: 12 },
+  section: { marginTop: 18 },
+  sectionTitle: { marginBottom: 8, paddingHorizontal: 12, color: '#fff' },
+  card: {
+    width: 120,
+    marginRight: 12,
+    alignItems: 'center',
+  },
+  poster: {
+    width: 120,
+    height: 170,
+    borderRadius: 8,
+    backgroundColor: '#222',
+  },
+  cardTitle: { marginTop: 6, textAlign: 'center', color: '#fff', width: 120 },
 });

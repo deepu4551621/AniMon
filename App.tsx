@@ -1,22 +1,18 @@
-/**
- * App entry with Navigation, Redux and SVG demo
- */
 import React from 'react';
-import { StatusBar, StyleSheet, Text, View, Button } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Provider, useDispatch, useSelector } from 'react-redux';
-import { store, RootState } from './src/store/store';
+import { StatusBar, StyleSheet, View} from 'react-native';
+import { Provider } from 'react-redux';
+import { store } from './src/store/store';
 import AppNavigation from './src/navigation/AppNavigation';
 import { NavigationContainer } from '@react-navigation/native';
 
 function AppInner() {
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle="dark-content" />
+    <View style={{ flex: 1, backgroundColor: '#000' }}>
+      <StatusBar barStyle="light-content" />
       <NavigationContainer>
         <AppNavigation />
       </NavigationContainer>
-    </SafeAreaProvider>
+    </View>
   );
 }
 
