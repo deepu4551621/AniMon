@@ -1,5 +1,11 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
-import { View, FlatList, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import {
+  View,
+  FlatList,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import SmartImage from '../../components/SmartImage';
 import AppText from '../../components/AppText';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -14,8 +20,7 @@ type Props = {
 };
 
 export default function HomeCarousel({ data, onPressItem }: Props) {
-  if (!Array.isArray(data) || data.length === 0) return null;
-const paddingTop = useSafeAreaInsets().top;
+  const paddingTop = useSafeAreaInsets().top;
   const listRef = useRef<FlatList>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const indexRef = useRef(0);
@@ -44,26 +49,43 @@ const paddingTop = useSafeAreaInsets().top;
     }
   }).current;
 
-  const viewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
+  const viewabilityConfig = useRef({
+    viewAreaCoveragePercentThreshold: 50,
+  }).current;
 
   const renderItem = useCallback(
     ({ item }: any) => {
-      const image = item.images?.jpg?.large_image_url || item.images?.jpg?.image_url || item.image_url || item.url;
+      const image =
+        item.images?.jpg?.large_image_url ||
+        item.images?.jpg?.image_url ||
+        item.image_url ||
+        item.url;
       return (
-        <TouchableOpacity style={styles.item} activeOpacity={0.9} onPress={() => onPressItem && onPressItem(item)}>
+        <TouchableOpacity
+          style={styles.item}
+          activeOpacity={0.9}
+          onPress={() => onPressItem && onPressItem(item)}
+        >
           <SmartImage uri={image} size={ITEM_WIDTH} style={styles.smart} />
           {/* <View style={styles.overlay} /> */}
-          <AppText weight="semibold" size={18} style={styles.title} numberOfLines={2}>
+          <AppText
+            weight="semibold"
+            size={18}
+            style={styles.title}
+            numberOfLines={2}
+          >
             {item.title}
           </AppText>
         </TouchableOpacity>
       );
     },
-    [onPressItem]
+    [onPressItem],
   );
 
+  if (!Array.isArray(data) || data.length === 0) return null;
+
   return (
-    <View style={{ paddingTop: paddingTop>0 ? paddingTop : 12 }}>
+    <View style={{ paddingTop: paddingTop > 0 ? paddingTop : 12 }}>
       <FlatList
         ref={listRef}
         data={data}
@@ -72,7 +94,9 @@ const paddingTop = useSafeAreaInsets().top;
         snapToInterval={ITEM_WIDTH}
         decelerationRate="fast"
         showsHorizontalScrollIndicator={false}
-        keyExtractor={(item: any, idx: number) => String(item.mal_id ?? item.url ?? idx)}
+        keyExtractor={(item: any, idx: number) =>
+          String(item.mal_id ?? item.url ?? idx)
+        }
         renderItem={renderItem}
         onViewableItemsChanged={onViewableItemsChanged}
         viewabilityConfig={viewabilityConfig}
@@ -82,10 +106,18 @@ const paddingTop = useSafeAreaInsets().top;
 }
 
 const styles = StyleSheet.create({
-  
   item: { width: ITEM_WIDTH, alignItems: 'center', justifyContent: 'center' },
-  smart: { width: ITEM_WIDTH, height: ITEM_HEIGHT, borderRadius: 12, overflow: 'hidden' },
-  overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.25)', borderRadius: 12 },
+  smart: {
+    width: ITEM_WIDTH,
+    height: ITEM_HEIGHT,
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.25)',
+    borderRadius: 12,
+  },
   title: { color: '#fff', padding: 12 },
   indicatorContainer: {
     position: 'absolute',
@@ -104,5 +136,4 @@ const styles = StyleSheet.create({
     marginHorizontal: 6,
   },
   dotActive: { backgroundColor: '#fff', transform: [{ scale: 1.2 }] },
-
 });

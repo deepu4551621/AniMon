@@ -1,11 +1,5 @@
-import React, { useEffect, useCallback } from 'react';
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-} from 'react-native';
-import SafeAreaWrapper from '../components/SafeAreaWrapper';
-import AppText from '../components/AppText';
+import React, { useEffect } from 'react';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import {
@@ -16,11 +10,10 @@ import {
 } from '../store/slices/animeSlice';
 import { Section, HomeCarousel } from './Home';
 
-
 export default function HomeScreen({ navigation }: any) {
   const dispatch = useDispatch();
   const { popularAnime, upcomingAnime, airingAnime, loading } = useSelector(
-    (s: RootState) => s.anime
+    (s: RootState) => s.anime,
   );
 
   const { topAnime } = useSelector((s: RootState) => s.anime);
@@ -37,23 +30,50 @@ export default function HomeScreen({ navigation }: any) {
     if (item?.mal_id) navigation.navigate('HomeDetails', { id: item.mal_id });
   };
 
-  const onViewAll = (screenName: string) => () => navigation.navigate(screenName);
+  const onViewAll = (screenName: string) => () =>
+    navigation.navigate(screenName);
 
   return (
-    <View style={styles.container} >
-      <ScrollView contentContainerStyle={{  }}>
+    <View style={styles.container}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 52 }}
+      >
         <HomeCarousel data={topAnime} onPressItem={onPressItem} />
-        <Section title="Popular" data={popularAnime} loading={loading} onPressItem={onPressItem} onViewAll={onViewAll('Popular')} />
-        <Section title="Upcoming" data={upcomingAnime} loading={loading} onPressItem={onPressItem} onViewAll={onViewAll('Upcoming')} />
-        <Section title="Airing" data={airingAnime} loading={loading} onPressItem={onPressItem} onViewAll={onViewAll('Airing')} />
+        <Section
+          title="Popular"
+          data={popularAnime}
+          loading={loading}
+          onPressItem={onPressItem}
+          onViewAll={onViewAll('Popular')}
+        />
+        <Section
+          title="Upcoming"
+          data={upcomingAnime}
+          loading={loading}
+          onPressItem={onPressItem}
+          onViewAll={onViewAll('Upcoming')}
+        />
+        <Section
+          title="Airing"
+          data={airingAnime}
+          loading={loading}
+          onPressItem={onPressItem}
+          onViewAll={onViewAll('Airing')}
+        />
       </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1,backgroundColor: '#000' },
-  title: { fontSize: 20, marginBottom: 8, color: '#fff', paddingHorizontal: 12 },
+  container: { flex: 1, backgroundColor: '#000' },
+  title: {
+    fontSize: 20,
+    marginBottom: 8,
+    color: '#fff',
+    paddingHorizontal: 12,
+  },
   section: { marginTop: 18 },
   sectionTitle: { marginBottom: 8, paddingHorizontal: 12, color: '#fff' },
   card: {

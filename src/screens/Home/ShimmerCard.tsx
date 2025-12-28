@@ -12,14 +12,18 @@ import Animated, {
 
 const { width } = Dimensions.get('window');
 
-export default function ShimmerCard() {
+export default function ShimmerCard({
+  cardWidth = 120,
+}: {
+  cardWidth?: number;
+}) {
   const progress = useSharedValue(0);
 
   useEffect(() => {
     progress.value = withRepeat(
       withTiming(1, { duration: 1000, easing: Easing.inOut(Easing.cubic) }),
       -1,
-      false
+      false,
     );
   }, []);
 
@@ -32,12 +36,17 @@ export default function ShimmerCard() {
   });
 
   return (
-    <View style={styles.card}>
-      <View style={styles.poster} />
-      <View style={styles.titlePlaceholder} />
-      <Animated.View style={[styles.gradientWrapper, shimmerStyle]} pointerEvents="none">
+    <View style={[styles.card, { width: cardWidth }]}>
+      <View
+        style={[styles.poster, { width: cardWidth, height: cardWidth * 1.42 }]}
+      />
+      <View style={[styles.titlePlaceholder, { width: cardWidth * 0.83 }]} />
+      <Animated.View
+        style={[styles.gradientWrapper, shimmerStyle]}
+        pointerEvents="none"
+      >
         <LinearGradient
-          colors={["transparent", 'rgba(255,255,255,0.14)', 'transparent']}
+          colors={['transparent', 'rgba(255,255,255,0.14)', 'transparent']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           style={styles.gradient}

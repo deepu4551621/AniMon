@@ -17,7 +17,11 @@ import Animated, {
 
 const ICON_SIZE = 24;
 
-export default function CustomBottomTab({ state, descriptors, navigation }: BottomTabBarProps) {
+export default function CustomBottomTab({
+  state,
+  descriptors,
+  navigation,
+}: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
   const current = useSharedValue(state.index);
 
@@ -41,15 +45,17 @@ export default function CustomBottomTab({ state, descriptors, navigation }: Bott
         if (route.name === 'Home') iconName = 'home-outline';
         else if (route.name === 'Discover') iconName = 'search-outline';
         else if (route.name === 'Watchlist') iconName = 'book-outline';
-        else if (route.name === 'Profile') iconName = 'person-outline';
+        else if (route.name === 'Schedule') iconName = 'calendar-outline';
 
         const animatedStyle = useAnimatedStyle(() => {
           const scale = current.value === i ? withTiming(1.15) : withTiming(1);
-          const translateY = current.value === i ? withTiming(-6) : withTiming(0);
+          const translateY =
+            current.value === i ? withTiming(-6) : withTiming(0);
           return {
             transform: [{ translateY }, { scale }],
             backgroundColor: '#000',
-            padding: 8, borderRadius: 24,
+            padding: 8,
+            borderRadius: 24,
           };
         });
 
@@ -59,7 +65,6 @@ export default function CustomBottomTab({ state, descriptors, navigation }: Bott
             accessibilityRole="button"
             accessibilityState={focused ? { selected: true } : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
-         
             onPress={() => {
               const event = navigation.emit({
                 type: 'tabPress',
@@ -69,14 +74,20 @@ export default function CustomBottomTab({ state, descriptors, navigation }: Bott
 
               if (!focused && !event.defaultPrevented) {
                 navigation.navigate(route.name, { merge: true });
-                }
+              }
             }}
             style={styles.tabButton}
           >
             <Animated.View style={animatedStyle}>
-              <Ionicons name={iconName} size={ICON_SIZE} color={focused ? '#fff' : '#999'} />
+              <Ionicons
+                name={iconName}
+                size={ICON_SIZE}
+                color={focused ? '#fff' : '#999'}
+              />
             </Animated.View>
-            <Text style={[styles.label, { color: focused ? '#fff' : '#999' }]}>{route.name}</Text>
+            <Text style={[styles.label, { color: focused ? '#fff' : '#999' }]}>
+              {route.name}
+            </Text>
           </TouchableOpacity>
         );
       })}
@@ -99,7 +110,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  
   },
   label: {
     fontSize: 11,

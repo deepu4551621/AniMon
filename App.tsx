@@ -1,8 +1,9 @@
 import React from 'react';
-import { StatusBar, StyleSheet, View} from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 import { Provider } from 'react-redux';
 import { store } from './src/store/store';
 import AppNavigation from './src/navigation/AppNavigation';
+import CToast from './src/components/CToast';
 import { NavigationContainer } from '@react-navigation/native';
 
 function AppInner() {
@@ -12,6 +13,7 @@ function AppInner() {
       <NavigationContainer>
         <AppNavigation />
       </NavigationContainer>
+      <CToast />
     </View>
   );
 }

@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from '../screens/HomeScreen';
 import DiscoverScreen from '../screens/DiscoverScreen';
 import WatchlistScreen from '../screens/WatchlistScreen';
-import ProfileScreen from '../screens/ProfileScreen';
+import ScheduleScreen from '../screens/ScheduleScreen';
 import HomeDetails from '../screens/Home/HomeDetails';
 import CustomBottomTab from './CustomBottomTab';
 import PopularScreen from '../screens/Home/PopularScreen';
@@ -16,11 +16,14 @@ const Stack = createNativeStackNavigator();
 
 function MainTabs() {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }} tabBar={props => <CustomBottomTab {...props} />}>
+    <Tab.Navigator
+      screenOptions={{ headerShown: false }}
+      tabBar={props => <CustomBottomTab {...props} />}
+    >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Discover" component={DiscoverScreen} />
       <Tab.Screen name="Watchlist" component={WatchlistScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Schedule" component={ScheduleScreen} />
     </Tab.Navigator>
   );
 }

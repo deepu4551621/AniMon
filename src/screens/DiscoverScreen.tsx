@@ -1,19 +1,47 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import AppText from '../components/AppText';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/store';
+import { searchAnime } from '../store/slices/animeSlice';
+import SearchScreen from './Discovery/SearchScreen';
+import SafeAreaWrapper from '../components/SafeAreaWrapper';
+import CustomHeader from '../components/CustomHeader';
+import { StyleSheet } from 'react-native';
 
-export default function DiscoverScreen() {
+export default function DiscoverScreen({ navigation }: any) {
+  const dispatch = useDispatch();
+  const { searchResults, loading } = useSelector((s: RootState) => s.anime);
+  const [query, setQuery] = useState('');
+  const [debounced, setDebounced] = useState('');
+
+  useEffect(() => {
+    const t = setTimeout(() => setDebounced(query.trim()), 350);
+    return () => clearTimeout(t);
+  }, [query]);
+
+  useEffect(() => {
+    if (debounced.length >= 2) dispatch(searchAnime(debounced) as any);
+  }, [debounced, dispatch]);
+
+  const onPress = useCallback(
+    (item: any) => navigation.navigate('HomeDetails', { id: item.mal_id }),
+    [navigation],
+  );
+
   return (
-    <View style={styles.container}>
-      <AppText weight="semibold" size={20} style={styles.title}>
-        Discover
-      </AppText>
-      <AppText>Explore trending content here.</AppText>
-    </View>
+    <SafeAreaWrapper style={styles.safe} backgroundColor="#000">
+      <CustomHeader title="Discover" align="center" />
+      <SearchScreen
+        query={query}
+        setQuery={setQuery}
+        debounced={debounced}
+        loading={loading}
+        results={searchResults}
+        onPress={onPress}
+      />
+    </SafeAreaWrapper>
   );
 }
-
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 16 },
-  title: { fontSize: 20, marginBottom: 8 },
+  safe: { flex: 1, backgroundColor: '#000' },
+  container: { padding: 12, flex: 1 },
 });

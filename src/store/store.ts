@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import animeReducer from './slices/animeSlice';
+import watchlistReducer from './slices/watchlistSlice';
 
 export const store = configureStore({
   reducer: {
     anime: animeReducer,
+    watchlist: watchlistReducer,
   },
 });
 

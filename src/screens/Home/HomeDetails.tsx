@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, ScrollView, ActivityIndicator, StyleSheet, StatusBar } from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import SafeAreaWrapper from '../../components/SafeAreaWrapper';
 import AppText from '../../components/AppText';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,11 +14,15 @@ import StatsGrid from './DetailsComponents/StatsGrid';
 import CharactersList from './DetailsComponents/CharactersList';
 import ShimmerCard from './ShimmerCard';
 import CustomHeader from '../../components/CustomHeader';
+import { SCREEN_WIDTH } from '../../utils';
+import Trailer from './DetailsComponents/Trailer';
 
 export default function HomeDetails({ route }: any) {
   const id = route?.params?.id;
   const dispatch = useDispatch();
-  const { anime, characters, loading, error } = useSelector((s: RootState) => s.anime);
+  const { anime, characters, loading, error } = useSelector(
+    (s: RootState) => s.anime,
+  );
 
   useEffect(() => {
     if (id) {
@@ -26,17 +30,22 @@ export default function HomeDetails({ route }: any) {
       dispatch(getCharacters(id) as any);
     }
   }, [id, dispatch]);
-console.log('Anime charactors:', JSON.stringify(characters[0]));
+  //   console.log('details==:', JSON.stringify(anime));
   return (
     <SafeAreaWrapper style={styles.safe} backgroundColor="#000">
       <CustomHeader title={anime?.title ?? 'Details'} align="center" />
-      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}
+      >
         {loading && !anime ? (
-          <ShimmerCard />
+          <ShimmerCard cardWidth={SCREEN_WIDTH - 32} />
         ) : anime ? (
           <View>
             <PosterHeader anime={anime} />
             <StatsGrid anime={anime} />
+
+            {anime.trailer ? <Trailer trailer={anime.trailer} /> : null}
 
             <InfoList
               items={[
@@ -47,7 +56,12 @@ console.log('Anime charactors:', JSON.stringify(characters[0]));
                 { label: 'Rating', value: anime.rating },
                 { label: 'Aired', value: anime.aired?.string },
                 { label: 'Broadcast', value: anime.broadcast?.string },
-                { label: 'Season', value: anime.season ? `${anime.season} ${anime.year ?? ''}` : anime.year ?? '—' },
+                {
+                  label: 'Season',
+                  value: anime.season
+                    ? `${anime.season} ${anime.year ?? ''}`
+                    : (anime.year ?? '—'),
+                },
               ]}
             />
 
