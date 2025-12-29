@@ -14,8 +14,10 @@ const { width } = Dimensions.get('window');
 
 export default function ShimmerCard({
   cardWidth = 120,
+  cardHeight = cardWidth * 1.42,
 }: {
   cardWidth?: number;
+  cardHeight?: number;
 }) {
   const progress = useSharedValue(0);
 
@@ -37,9 +39,7 @@ export default function ShimmerCard({
 
   return (
     <View style={[styles.card, { width: cardWidth }]}>
-      <View
-        style={[styles.poster, { width: cardWidth, height: cardWidth * 1.42 }]}
-      />
+      <View style={[styles.poster, { width: cardWidth, height: cardHeight }]} />
       <View style={[styles.titlePlaceholder, { width: cardWidth * 0.83 }]} />
       <Animated.View
         style={[styles.gradientWrapper, shimmerStyle]}

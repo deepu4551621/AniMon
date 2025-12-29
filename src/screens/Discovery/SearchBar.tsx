@@ -8,7 +8,11 @@ type Props = {
   placeholder?: string;
 };
 
-export default function SearchBar({ value, onChange, placeholder = 'Search anime...' }: Props) {
+export default function SearchBar({
+  value,
+  onChange,
+  placeholder = 'Search anime...',
+}: Props) {
   return (
     <View style={styles.container}>
       <TextInput
@@ -22,8 +26,14 @@ export default function SearchBar({ value, onChange, placeholder = 'Search anime
         autoCorrect={false}
       />
       {value.length > 0 ? (
-        <TouchableOpacity onPress={() => onChange('')} style={styles.clear} accessibilityRole="button">
-          <AppText size={14} style={styles.clearText}>✕</AppText>
+        <TouchableOpacity
+          onPress={() => onChange('')}
+          style={styles.clear}
+          accessibilityRole="button"
+        >
+          <AppText size={14} style={styles.clearText}>
+            ✕
+          </AppText>
         </TouchableOpacity>
       ) : null}
     </View>
@@ -31,7 +41,15 @@ export default function SearchBar({ value, onChange, placeholder = 'Search anime
 }
 
 const styles = StyleSheet.create({
-  container: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#0d0d0d', padding: 8, borderRadius: 10 },
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#0d0d0d',
+    padding: 8,
+    marginHorizontal: 12,
+    marginBottom: 12,
+    borderRadius: 10,
+  },
   input: { flex: 1, color: '#fff', padding: 8, fontSize: 16 },
   clear: { paddingHorizontal: 8 },
   clearText: { color: '#9bdcff' },

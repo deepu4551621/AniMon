@@ -39,7 +39,11 @@ export default function HomeScreen({ navigation }: any) {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 52 }}
       >
-        <HomeCarousel data={topAnime} onPressItem={onPressItem} />
+        <HomeCarousel
+          data={topAnime}
+          onPressItem={onPressItem}
+          indicatorStyle="modern"
+        />
         <Section
           title="Popular"
           data={popularAnime}

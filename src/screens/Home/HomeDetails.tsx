@@ -30,7 +30,7 @@ export default function HomeDetails({ route }: any) {
       dispatch(getCharacters(id) as any);
     }
   }, [id, dispatch]);
-  //   console.log('details==:', JSON.stringify(anime));
+  console.log('details==:', anime);
   return (
     <SafeAreaWrapper style={styles.safe} backgroundColor="#000">
       <CustomHeader title={anime?.title ?? 'Details'} align="center" />

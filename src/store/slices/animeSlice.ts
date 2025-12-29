@@ -9,7 +9,6 @@ type AnimeState = {
   topAnime: any[];
   pictures: any[];
   isSearch: boolean;
-  searchResults: any[];
   loading: boolean;
   error: string | null;
   anime: any | null;
@@ -23,7 +22,6 @@ const initialState: AnimeState = {
   topAnime: [],
   pictures: [],
   isSearch: false,
-  searchResults: [],
   loading: false,
   error: null,
   anime: null,
@@ -133,11 +131,9 @@ export const getPictures = createAsyncThunk('anime/getPictures', async (id: numb
   return json.data;
 });
 
-export const searchAnime = createAsyncThunk('anime/search', async (q: string) => {
-  const url = `${baseUrl}/anime?q=${encodeURIComponent(q)}&order_by=popularity&sort=asc&sfw`;
-  const json = await dedupFetch(url);
-  return json.data;
-});
+
+
+
 
 const slice = createSlice({
   name: 'anime',
@@ -226,15 +222,7 @@ const slice = createSlice({
         s.loading = false;
       })
 
-      .addCase(searchAnime.pending, (s) => ({ ...s, loading: true }))
-      .addCase(searchAnime.fulfilled, (s, action) => {
-        s.searchResults = action.payload;
-        s.loading = false;
-      })
-      .addCase(searchAnime.rejected, (s, action) => {
-        s.error = action.error.message ?? 'Search failed';
-        s.loading = false;
-      });
+  
   },
 });
 

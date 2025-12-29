@@ -10,15 +10,19 @@ export default function StatsGrid({ anime }: Props) {
     { label: 'Score', value: anime.score ?? 'N/A' },
     { label: 'Scored by', value: anime.scored_by ?? 'N/A' },
     { label: 'Episodes', value: anime.episodes ?? 'N/A' },
-    { label: 'Members', value: anime.members ?? 'N/A' },
+    { label: 'Rank', value: anime.rank ?? 'N/A' },
   ];
 
   return (
     <View style={styles.container}>
-      {stats.map((s) => (
+      {stats.map(s => (
         <View key={s.label} style={styles.cell}>
-          <AppText size={13} style={styles.label}>{s.label}</AppText>
-          <AppText weight="semibold" size={15} style={styles.value}>{String(s.value)}</AppText>
+          <AppText size={13} style={styles.label}>
+            {s.label}
+          </AppText>
+          <AppText weight="semibold" size={15} style={styles.value}>
+            {String(s.value)}
+          </AppText>
         </View>
       ))}
     </View>
@@ -26,7 +30,11 @@ export default function StatsGrid({ anime }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 12 },
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 12,
+  },
   cell: { flex: 1, alignItems: 'center' },
   label: { color: '#999' },
   value: { color: '#fff', marginTop: 6 },

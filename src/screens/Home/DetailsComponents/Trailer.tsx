@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import AppText from '../../../components/AppText';
+import ShimmerCard from '../ShimmerCard';
+import { SCREEN_WIDTH } from '../../../utils';
 
 type TrailerProps = {
   trailer?: {
@@ -19,7 +21,7 @@ type TrailerProps = {
   height?: number;
 };
 
-export default function Trailer({ trailer, height = 220 }: TrailerProps) {
+export default function Trailer({ trailer, height = 180 }: TrailerProps) {
   if (!trailer) return null;
   const embed = trailer.embed_url ?? trailer?.embed_url ?? null;
   // try to extract a YouTube video id from embed_url or trailer data
@@ -30,28 +32,18 @@ export default function Trailer({ trailer, height = 220 }: TrailerProps) {
   };
   const youtubeId =
     trailer.youtube_id ?? trailer.youtube_id ?? extractYouTubeId(embed);
-  const thumb = trailer.images?.jpg?.image_url || null;
-  const openLink = async (url?: string | null) => {
-    if (!url) return;
-    try {
-      const can = await Linking.canOpenURL(url);
-      if (can) await Linking.openURL(url);
-    } catch {
-      // ignore
-    }
-  };
 
   if (youtubeId) {
     return (
-      <View style={[styles.container, { height }]}>
-        <AppText weight="semibold" size={16} style={styles.title}>
-          Trailer
-        </AppText>
+      <View style={[styles.container, { marginVertical: 16 }]}>
+        <AppText style={styles.title}>Trailer</AppText>
         <View
           style={{
-            backgroundColor: '#000',
             borderRadius: 8,
             overflow: 'hidden',
+            backgroundColor: 'rgba(0,0,0,0.6)',
+            padding: 4,
+            elevation: 10,
           }}
         >
           <YoutubePlayer height={height} videoId={youtubeId} />
@@ -61,26 +53,18 @@ export default function Trailer({ trailer, height = 220 }: TrailerProps) {
   }
 
   return (
-    <View style={[styles.container, { height }]}>
-      {thumb ? (
-        <Image source={{ uri: thumb }} style={[styles.image, { height }]} />
-      ) : (
-        <View style={[styles.image, { height }]} />
-      )}
-      <TouchableOpacity
-        style={styles.playOverlay}
-        onPress={() => openLink(trailer.url ?? undefined)}
-      >
-        <AppText weight="semibold" color="#fff">
-          Play Trailer
-        </AppText>
-      </TouchableOpacity>
+    <View style={[styles.container, { marginVertical: 12 }]}>
+      <ShimmerCard cardWidth={SCREEN_WIDTH - 32} cardHeight={height} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { width: '100%', backgroundColor: '#000', marginBottom: 12 },
+  container: {
+    width: '100%',
+    backgroundColor: '#000',
+    marginBottom: 12,
+  },
   image: { width: '100%', borderRadius: 8, backgroundColor: '#111' },
   playOverlay: {
     position: 'absolute',
